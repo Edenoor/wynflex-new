@@ -1,0 +1,10 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^(.*)$ /#/$1 [NE,R=301,L]
+
+  RewriteRule ^(quienes-somos|servicios|empleos|ayuda)/?$ /#$1 [NE,R=301,L]
+</IfModule>

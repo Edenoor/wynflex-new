@@ -1,0 +1,91 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------FONTS------------ */
+/* Kanit */
+@font-face {
+	font-family: 'Kanit';
+	src: url('/fonts/kanit/Kanit-Bold.ttf') format('truetype');
+	font-weight: 700;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Kanit';
+	src: url('/fonts/kanit/Kanit-Medium.ttf') format('truetype');
+	font-weight: 500;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'Kanit';
+	src: url('/fonts/kanit/Kanit-Regular.ttf') format('truetype');
+	font-weight: 400;
+	font-style: normal;
+}
+
+/* ------------STYLES------------ */
+@layer base {
+	body {
+		@apply text-base sm:text-xl font-normal font-kanit bg-gray-dark text-white overflow-x-hidden xl:text-[1.6rem] xl:leading-10;
+	}
+
+	p {
+		@apply leading-relaxed xl:leading-9;
+	}
+
+	h1 {
+		@apply text-4xl sm:text-5xl font-bold xl:text-6xl;
+	}
+
+	h2 {
+		@apply text-2xl sm:text-4xl font-bold xl:text-5xl;
+	}
+
+	h3 {
+		@apply text-xl sm:text-3xl font-bold xl:text-4xl;
+	}
+
+	h4 {
+		@apply text-base sm:text-lg font-bold xl:text-xl;
+	}
+
+	h5 {
+		@apply font-extrabold text-sm lg:text-base;
+	}
+
+	h6 {
+		@apply font-bold text-sm;
+	}
+
+	a {
+		@apply font-bold hover:cursor-pointer block;
+	}
+
+	.field,
+	input,
+	textarea,
+	[type="text"] {
+		@apply w-full border-solid border-[1px] border-gray-dark/20 bg-gray-light/50 rounded-lg px-2 py-1;
+
+		&:focus {
+			@apply border-solid outline-none border-yellow outline-1 outline-black/50 outline-offset-0;
+		}
+	}
+
+	textarea {
+		@apply resize-y p-3 max-h-48 min-h-[100px];
+	}
+
+	.field::placeholder,
+	input::placeholder,
+	textarea::placeholder,
+	[type="text"]::placeholder {
+		@apply text-gray-dark/60
+	}
+
+	label {
+		@apply block;
+	}
+}
