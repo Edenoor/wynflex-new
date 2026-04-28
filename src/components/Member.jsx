@@ -1,23 +1,29 @@
+const Member = ({ image, name, role, description }) => {
+  return (
+    <article className="group w-full max-w-sm overflow-hidden rounded-3xl border border-white/10 bg-white/[0.025] transition duration-500 hover:border-yellow/30 hover:bg-white/[0.065] hover:shadow-[0_24px_80px_rgba(245,190,80,.12)] backdrop-blur-sm">
+      <div className="relative h-72 overflow-hidden">
+        <img
+          className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.035]"
+          src={image}
+          alt={name}
+        />
 
-const Member = ({ image, name, role, description, linkedin, className, ...otherProps }) => {
-    return (
-        <div {...otherProps} className={`relative w-[15rem] h-[15rem] rounded-xl flex px-2 overflow-hidden group ${className ? className : ''}`}>
-            <img className="absolute w-full h-full object-cover top-0 left-0 -z-20" src={image} alt="" />
-            <div className="absolute w-full h-[20%] bg-gradient-to-t from-5% from-yellow  bottom-0 left-0 -z-10"></div>
+        <div className="absolute inset-0 bg-gradient-to-t from-gray-dark/75 via-gray-dark/10 to-transparent opacity-80 transition duration-500 group-hover:opacity-60" />
+      </div>
 
+      <div className="p-7 text-center">
+        <p className="text-yellow text-xs tracking-[0.32em] uppercase mb-3">
+          {role}
+        </p>
 
-            <span className="inline-block mt-auto [text-shadow:_0px_0px_5px_rgb(0_0_0_/_80%)]">
-                <h4>{name}</h4>
-                <p>{role}</p>
-            </span>
-            <div className="absolute bg-yellow w-full h-full z-10 left-0 top-0 translate-y-full transition-transform group-hover:translate-y-0 p-2 flex flex-col">
-                <h3>{name}</h3>
-                <h4>{role}</h4>
-                <p className="xl:text-lg">{description}</p>
-                <a href={linkedin} className="mt-auto">LinkedIN</a>
-            </div>
-        </div>
-    )
-}
+        <h3 className="mb-4 text-white">{name}</h3>
 
-export default Member
+        <p className="text-white/70 text-sm leading-relaxed">
+          {description}
+        </p>
+      </div>
+    </article>
+  );
+};
+
+export default Member;

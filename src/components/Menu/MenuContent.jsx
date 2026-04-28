@@ -1,16 +1,17 @@
-import useMenuContext from "../..//Hooks/useMenuContext";
+import useMenuContext from "../../hooks/useMenuContext";
 import { motion } from "framer-motion";
 
 export default function MenuContent({ children, ...otherProps }) {
+  const { toggleOpen } = useMenuContext();
 
-    const { toggleOpen } = useMenuContext();
-
-    return (
-        <motion.div
-            onClick={() => { toggleOpen() }}
-            {...otherProps}
-        >
-            {children}
-        </motion.div>
-    )
+  return (
+    <motion.div
+      onClick={() => {
+        toggleOpen();
+      }}
+      {...otherProps}
+    >
+      {children}
+    </motion.div>
+  );
 }

@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import DeviceContext from "../Context/DeviceContext";
+import DeviceContext from "../context/DeviceContext";
 
 export default function useDeviceContext() {
-    return useContext(DeviceContext);
+  return useContext(DeviceContext);
 }

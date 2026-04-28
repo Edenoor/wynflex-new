@@ -1,34 +1,51 @@
-import { Link } from "react-router-dom"
-import ErrorPage from "./ErrorPage"
-
 const Contact = () => {
-	return (
-		<div className="pt-20 absolute w-full h-screen bg-gray-dark flex items-center justify-center">
+  return (
+    <div className="pt-28 min-h-screen bg-gray-dark flex items-center">
+      <div className="container">
+        <div className="border-y border-white/20 py-14 flex flex-col gap-10 max-w-xl">
+          <div>
+            <p className="text-white/85 leading-relaxed">
+              Potenciando el comercio virtual, brindamos soluciones para tiendas
+              online. Seguinos en redes.
+            </p>
 
-			<div className="container flex flex-col gap-6">
-				<hr className="w-full border-white border-[1px] mb-8" />
-				<p className="max-w-xl">
-					Potenciando el comercio virtual, brindamos soluciones para tiendas online ¡Seguimos en redes!
-				</p>
+            <div className="flex gap-6 mt-6">
+              <a href="https://es-la.facebook.com/wynflexlogistica" target="_blank" rel="noopener noreferrer">
+                <img className="h-10 opacity-80 hover:opacity-100 transition" src="/media/svg/facebook-icon.svg" alt="Facebook" />
+              </a>
 
-				<div className="flex gap-6">
-					<a href="https://es-la.facebook.com/wynflexlogistica"><img className="h-10" src="/media/svg/facebook-icon.svg" alt="" /></a>
-					<a href="https://www.instagram.com/wynflex/"><img className="h-10" src="/media/svg/instagram-icon.svg" alt="" /></a>
-					<a href="https://www.linkedin.com/in/wynflex-log%C3%ADstica-integral-935a29274/"><img className="h-10" src="/media/svg/linkedin-icon.svg" alt="" /></a>
-				</div>
+              <a href="https://www.instagram.com/wynflex/" target="_blank" rel="noopener noreferrer">
+                <img className="h-10 opacity-80 hover:opacity-100 transition" src="/media/svg/instagram-icon.svg" alt="Instagram" />
+              </a>
 
-				<p className="max-w-xl">
-					¿Querés contratar nuestros servicios personalmente? Comunicate con nuestro equipo por what’s app
-				</p>
+              <a href="https://www.linkedin.com/in/wynflex-log%C3%ADstica-integral-935a29274/" target="_blank" rel="noopener noreferrer">
+                <img className="h-10 opacity-80 hover:opacity-100 transition" src="/media/svg/linkedin-icon.svg" alt="LinkedIn" />
+              </a>
+            </div>
+          </div>
 
-				<a href="https://api.whatsapp.com/send?phone=5491168484537"><img className="h-10" src="/media/svg/whatsapp-icon.svg" alt="" /></a>
+          <div>
+            <p className="text-white/85 leading-relaxed">
+              ¿Querés contratar nuestros servicios personalmente? Comunicate con
+              nuestro equipo por WhatsApp.
+            </p>
 
-				<hr className="w-full border-white border-[1px] mt-8" />
-			</div>
+            <a
+              href="https://api.whatsapp.com/send?phone=5491168484537"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 mt-6"
+            >
+              <img className="h-10 opacity-80 hover:opacity-100 transition" src="/media/svg/whatsapp-icon.svg" alt="WhatsApp" />
+              <span className="text-yellow text-sm tracking-[0.18em] uppercase">
+                Hablanos
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-
-		</div>
-	)
-}
-
-export default Contact
+export default Contact;
