@@ -2,6 +2,7 @@ import Root from '../Root.jsx'
 import ErrorPage from "../views/ErrorPage";
 import { LazyHome, LazyAboutUs, LazyServices, LazyJobs, LazyContact } from '../lazy-components/index.jsx'
 import Buy from '../views/Buy.jsx';
+import ImmersiveTest from '../views/ImmersiveTest.jsx';
 
 const routes = [
   {
@@ -36,6 +37,10 @@ const routes = [
         path: 'contacto',
         name: 'Contacto',
         element: <LazyContact />
+      },
+      {
+        path: 'immersive-test',
+        element: <ImmersiveTest />
       }
     ]
   }
