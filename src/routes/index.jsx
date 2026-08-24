@@ -1,8 +1,10 @@
 import Root from '../Root.jsx'
-import ErrorPage from "../views/ErrorPage";
+import ErrorPage from "../views/ErrorPage"
 import { LazyHome, LazyAboutUs, LazyServices, LazyJobs, LazyContact } from '../lazy-components/index.jsx'
-import Buy from '../views/Buy.jsx';
-import ImmersiveTest from '../views/ImmersiveTest.jsx';
+import Buy from '../views/Buy.jsx'
+import ImmersiveTest from '../views/ImmersiveTest.jsx'
+import MessageEffectTest from '../views/MessageEffectTest.jsx'
+import FeaturesEffectTest from '../views/FeaturesEffectTest.jsx'
 
 const routes = [
   {
@@ -41,6 +43,14 @@ const routes = [
       {
         path: 'immersive-test',
         element: <ImmersiveTest />
+      },
+      {
+        path: 'message-effect',
+        element: <MessageEffectTest />
+      },
+            {
+        path: 'features-test',
+        element: <FeaturesEffectTest />
       }
     ]
   }
