@@ -2,14 +2,11 @@ import { useLayoutEffect, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { SlowMo } from 'gsap/EasePack'
-import Lenis from 'lenis'
+import './ImmersiveEffect.css'
 
 gsap.registerPlugin(ScrollTrigger, SlowMo)
 
-const CREAM = '#f3f1eb'
-const DARK = '#292727'
 const YELLOW = '#f5d84b'
-const SHADOW = '#493f13'
 
 const services = [
   {
@@ -38,7 +35,7 @@ function clamp(value, min, max) {
   return Math.max(min, Math.min(max, value))
 }
 
-export default function ImmersiveTest() {
+export default function ImmersiveEffect() {
   const sectionRef = useRef(null)
 
   /*
@@ -114,37 +111,6 @@ export default function ImmersiveTest() {
     ) {
       return
     }
-
-    /*
-     * =========================================================
-     * LENIS
-     * =========================================================
-     */
-
-    const lenis = new Lenis({
-      lerp: 0.08,
-      smoothWheel: true,
-    })
-
-    lenis.on('scroll', ScrollTrigger.update)
-
-    let lenisRaf
-
-    const lenisLoop = (time) => {
-      if (disposed) return
-
-      lenis.raf(time)
-
-      lenisRaf =
-        requestAnimationFrame(
-          lenisLoop,
-        )
-    }
-
-    lenisRaf =
-      requestAnimationFrame(
-        lenisLoop,
-      )
 
     /*
      * =========================================================
@@ -1349,973 +1315,132 @@ export default function ImmersiveTest() {
         visualRaf,
       )
 
-      cancelAnimationFrame(
-        lenisRaf,
-      )
-
       timeline?.scrollTrigger?.kill()
       timeline?.kill()
 
       clearLetters()
-
-      lenis.destroy()
     }
   }, [])
 
   return (
-    <>
-      <style>
-        {`
-          :root {
-            --wyn-cream: ${CREAM};
-            --wyn-dark: ${DARK};
-            --wyn-yellow: ${YELLOW};
-            --wyn-shadow: ${SHADOW};
-          }
-
-          .wyn-immersive-page {
-            margin: 0;
-
-            background:
-              var(--wyn-cream);
-
-            color:
-              var(--wyn-dark);
-          }
-
-          /* ================================================
-             INTRO
-          ================================================= */
-
-          .wyn-intro {
-            min-height: 100vh;
-
-            display: flex;
-
-            align-items:
-              flex-end;
-
-            padding: 7vw;
-
-            background:
-              var(--wyn-cream);
-          }
-
-          .wyn-intro__eyebrow {
-            margin: 0;
-
-            font-size: 11px;
-
-            letter-spacing:
-              .22em;
-
-            text-transform:
-              uppercase;
-
-            opacity: .45;
-          }
-
-          .wyn-intro__title {
-            margin:
-              20px 0 0;
-
-            font-size:
-              clamp(
-                64px,
-                10vw,
-                150px
-              );
-
-            line-height:
-              .86;
-
-            letter-spacing:
-              -.065em;
-
-            font-weight:
-              700;
-          }
-
-          /* ================================================
-             WORK
-          ================================================= */
-
-          .wyn-work {
-            --scroll-progress: 0;
-
-            position:
-              relative;
-
-            z-index: 2;
-
-            background:
-              var(--wyn-cream);
-          }
-
-          /* ================================================
-             MASK
-          ================================================= */
-
-          .wyn-mask-outer {
-            position:
-              sticky;
-
-            top: 0;
-
-            left: 0;
-
-            z-index: 20;
-
-            width: 100%;
-
-            height: 100lvh;
-
-            overflow:
-              hidden;
-
-            pointer-events:
-              none;
-          }
-
-          .wyn-mask {
-            position:
-              absolute;
-
-            inset: 0;
-
-            width: 100%;
-
-            height: 100%;
-
-            transform-origin:
-              center center;
-
-            will-change:
-              transform;
-          }
-
-          .wyn-mask svg {
-            position:
-              absolute;
-
-            inset: 0;
-
-            width: 100%;
-
-            height: 100%;
-          }
-
-          .wyn-mask__outer {
-            fill:
-              var(--wyn-cream);
-
-            fill-rule:
-              evenodd;
-
-            stroke:
-              rgba(
-                41,
-                39,
-                39,
-                .55
-              );
-
-            stroke-width:
-              1px;
-          }
-
-          .wyn-mask__inner {
-            fill:
-              var(--wyn-cream);
-
-            fill-rule:
-              evenodd;
-
-            stroke:
-              rgba(
-                41,
-                39,
-                39,
-                .35
-              );
-
-            stroke-width:
-              1px;
-
-            transform:
-              translate3d(
-                0,
-
-                calc(
-                  var(--scroll-progress) *
-                  48px
-                ),
-
-                0
-              );
-
-            will-change:
-              transform;
-          }
-
-          /* ================================================
-             OUTER
-          ================================================= */
-
-          .wyn-work__outer {
-            position:
-              absolute;
-
-            top: 0;
-
-            left: 0;
-
-            width: 100%;
-
-            height: 100%;
-
-            clip-path:
-              inset(0 -1rem);
-          }
-
-          /* ================================================
-             INNER
-          ================================================= */
-
-          .wyn-work__inner {
-            position:
-              fixed;
-
-            top: 0;
-
-            left: 0;
-
-            width: 100%;
-
-            height: 100%;
-
-            display: flex;
-
-            align-items:
-              center;
-
-            justify-content:
-              center;
-
-            overflow:
-              hidden;
-
-            background:
-              var(--wyn-dark);
-
-            color:
-              var(--wyn-yellow);
-
-            transform:
-              translate3d(
-                0,
-
-                calc(
-                  var(--scroll-progress) *
-                  -15%
-                ),
-
-                0
-              );
-
-            will-change:
-              clip-path,
-              transform;
-          }
-
-          /* ================================================
-             RULER
-          ================================================= */
-
-          .wyn-work__ruler {
-            --width:
-              min(
-                16.6667%,
-                19.625rem
-              );
-
-            position:
-              absolute;
-
-            top: 10lvh;
-
-            left:
-              calc(
-                50% -
-                var(--width) /
-                2
-              );
-
-            width:
-              var(--width);
-
-            height:
-              80lvh;
-
-            opacity:
-              0;
-
-            pointer-events:
-              none;
-          }
-
-          /* ================================================
-             TYPOGRAPHY SOURCE
-          ================================================= */
-
-          .wyn-title,
-          .wyn-scene {
-            font-size:
-              min(
-                18.75rem,
-                25lvh
-              );
-
-            font-weight:
-              900;
-
-            line-height:
-              1;
-
-            text-align:
-              center;
-
-            text-transform:
-              uppercase;
-          }
-
-          .wyn-title {
-            width:
-              .7em;
-
-            opacity:
-              0;
-
-            word-break:
-              break-all;
-
-            pointer-events:
-              none;
-          }
-
-          .wyn-title__inner {
-            display:
-              flex;
-
-            flex-direction:
-              column;
-
-            align-items:
-              center;
-
-            justify-content:
-              center;
-
-            margin:
-              .075em
-              0
-              -.125em;
-          }
-
-          .wyn-original-letter,
-          .wyn-scene-letter {
-            line-height:
-              .85;
-          }
-
-          /* ================================================
-             SCENE
-          ================================================= */
-
-          .wyn-scene {
-            --state: 0;
-
-            position:
-              absolute;
-
-            inset: 0;
-
-            z-index: 2;
-
-            width: 100%;
-
-            height: 100%;
-
-            perspective:
-              40rem;
-
-            transform-origin:
-              center center;
-
-            will-change:
-              transform;
-          }
-
-          /* ================================================
-             LETTER ENGINE
-          ================================================= */
-
-          .wyn-scene-letter {
-            --progress:
-              .5;
-
-            --head:
-              calc(
-                (
-                  var(--progress) -
-                  .5
-                ) *
-                -2
-              );
-
-            --ahead:
-              calc(
-                var(--head) *
-                var(--head)
-              );
-
-            position:
-              absolute;
-
-            display:
-              block;
-
-            color:
-              var(--wyn-yellow);
-
-            transform:
-              rotateY(
-                calc(
-                  var(--head) *
-                  -10deg *
-                  var(--state)
-                )
-              )
-
-              translate3d(
-                calc(
-                  var(--head) *
-                  50vw *
-                  var(--state)
-                ),
-
-                calc(
-                  var(--iy) *
-                  50% *
-                  var(--ahead) *
-                  var(--state)
-                ),
-
-                0
-              );
-
-            pointer-events:
-              none;
-
-            will-change:
-              transform;
-          }
-
-          .wyn-scene-letter::before {
-            position:
-              absolute;
-
-            top: 0;
-
-            left: 0;
-
-            z-index:
-              -1;
-
-            color:
-              var(--wyn-shadow);
-
-            opacity:
-              min(
-                var(--state) *
-                2,
-                1
-              );
-
-            transform:
-              scale(
-                1.05,
-                1.02
-              )
-
-              translate3d(
-                calc(
-                  var(--head) *
-                  .1rem *
-                  var(--state) *
-                  var(--state)
-                ),
-
-                0,
-                0
-              );
-
-            transform-origin:
-              calc(
-                50% -
-                var(--head) *
-                50%
-              )
-              -50%;
-
-            content:
-              attr(
-                data-letter
-              );
-
-            will-change:
-              opacity,
-              transform;
-          }
-
-          /* ================================================
-             CARDS
-          ================================================= */
-
-          .wyn-service-card {
-            --progress: 1;
-            --size: .75;
-            --y: 1;
-
-            position:
-              absolute;
-
-            top:
-              50%;
-
-            left:
-              50%;
-
-            z-index:
-              2;
-
-            display:
-              block;
-
-            padding:
-              .5rem
-              .5rem
-              0;
-
-            background:
-              var(--wyn-yellow);
-
-            color:
-              var(--wyn-dark);
-
-            transform-style:
-              preserve-3d;
-
-            transform:
-              rotateY(
-                calc(
-                  var(--progress) *
-                  -20deg
-                )
-              )
-
-              translate3d(
-                calc(
-                  var(--progress) *
-                  (
-                    50vw +
-                    100%
-                  ) -
-                  50%
-                ),
-
-                calc(
-                  var(--y) *
-                  50% -
-                  50%
-                ),
-
-                calc(
-                  var(--progress) *
-                  var(--progress) *
-                  -5rem
-                )
-              )
-
-              scale(
-                var(--size)
-              );
-
-            will-change:
-              transform;
-          }
-
-          .wyn-service-card__visual {
-            width:
-              min(
-                46vw,
-                620px
-              );
-
-            aspect-ratio:
-              16 / 10;
-
-            display:
-              flex;
-
-            align-items:
-              center;
-
-            justify-content:
-              center;
-
-            overflow:
-              hidden;
-
-            background:
-              var(--wyn-dark);
-
-            color:
-              var(--wyn-yellow);
-
-            font-size:
-              clamp(
-                70px,
-                10vw,
-                150px
-              );
-
-            font-weight:
-              900;
-
-            letter-spacing:
-              -.08em;
-          }
-
-          .wyn-service-card__caption {
-            display:
-              flex;
-
-            align-items:
-              center;
-
-            justify-content:
-              space-between;
-
-            gap:
-              2rem;
-
-            padding:
-              .75rem;
-
-            font-size:
-              11px;
-
-            font-weight:
-              700;
-
-            letter-spacing:
-              .12em;
-
-            text-transform:
-              uppercase;
-          }
-
-          .wyn-service-card__number {
-            opacity:
-              .55;
-          }
-
-          /* ================================================
-             CANVAS
-          ================================================= */
-
-          .wyn-canvas {
-            position:
-              absolute;
-
-            inset: 0;
-
-            z-index:
-              1;
-
-            width:
-              100%;
-
-            height:
-              100%;
-
-            transform:
-              translate3d(
-                0,
-
-                calc(
-                  var(--scroll-progress) *
-                  -5%
-                ),
-
-                0
-              );
-
-            pointer-events:
-              none;
-          }
-
-          /* ================================================
-             EXIT
-          ================================================= */
-
-          .wyn-exit {
-            min-height:
-              100vh;
-
-            display:
-              flex;
-
-            align-items:
-              center;
-
-            padding:
-              7vw;
-
-            background:
-              var(--wyn-cream);
-
-            color:
-              var(--wyn-dark);
-          }
-
-          .wyn-exit h2 {
-            margin:
-              0;
-
-            font-size:
-              clamp(
-                60px,
-                9vw,
-                140px
-              );
-
-            line-height:
-              .88;
-
-            letter-spacing:
-              -.06em;
-
-            font-weight:
-              700;
-          }
-
-          /* ================================================
-             RESPONSIVE
-          ================================================= */
-
-          @media (
-            max-width:
-            987px
-          ) {
-            .wyn-work__ruler {
-              --width:
-                33.3333%;
-            }
-
-            .wyn-service-card__visual {
-              width:
-                min(
-                  70vw,
-                  620px
-                );
-            }
-          }
-
-          @media (
-            max-width:
-            576px
-          ) {
-            .wyn-work__ruler {
-              --width:
-                50%;
-            }
-
-            .wyn-work__inner,
-            .wyn-canvas {
-              transform:
-                none;
-            }
-
-            .wyn-service-card {
-              padding:
-                .25rem;
-
-              transform:
-                rotateY(
-                  calc(
-                    var(--progress) *
-                    -20deg
-                  )
-                )
-
-                translate3d(
-                  calc(
-                    var(--progress) *
-                    (
-                      50vw +
-                      100%
-                    ) -
-                    50%
-                  ),
-
-                  calc(
-                    var(--y) *
-                    100% -
-                    50%
-                  ),
-
-                  calc(
-                    var(--progress) *
-                    var(--progress) *
-                    -5rem
-                  )
-                );
-            }
-
-            .wyn-service-card__visual {
-              width:
-                78vw;
-            }
-
-            .wyn-service-card__caption {
-              display:
-                none;
-            }
-          }
-        `}
-      </style>
-
-      <main className="wyn-immersive-page">
-        <section className="wyn-intro">
-          <div>
-            <p className="wyn-intro__eyebrow">
-              Wynflex
-            </p>
-
-            <h1 className="wyn-intro__title">
-              Quiénes
-              <br />
-              somos.
-            </h1>
-          </div>
-        </section>
-
-        <section
-          ref={sectionRef}
-          className="wyn-work"
-        >
-          <div className="wyn-mask-outer">
-            <div
-              ref={maskRef}
-              className="wyn-mask"
-            >
-              <svg
-                ref={maskSvgRef}
-                aria-hidden="true"
-              >
-                <path
-                  ref={maskOuterRef}
-                  className="wyn-mask__outer"
-                />
-
-                <path
-                  ref={maskInnerRef}
-                  className="wyn-mask__inner"
-                />
-              </svg>
-            </div>
-          </div>
-
+    <section className="wyn-immersive">
+      <section className="wyn-intro">
+        <div>
+          <p className="wyn-intro__eyebrow">
+            Wynflex
+          </p>
+
+          <h1 className="wyn-intro__title">
+            Quiénes
+            <br />
+            somos.
+          </h1>
+        </div>
+      </section>
+
+      <section
+        ref={sectionRef}
+        className="wyn-work"
+      >
+        <div className="wyn-mask-outer">
           <div
-            ref={containerRef}
-            className="wyn-work__outer"
+            ref={maskRef}
+            className="wyn-mask"
+          >
+            <svg
+              ref={maskSvgRef}
+              aria-hidden="true"
+            >
+              <path
+                ref={maskOuterRef}
+                className="wyn-mask__outer"
+              />
+
+              <path
+                ref={maskInnerRef}
+                className="wyn-mask__inner"
+              />
+            </svg>
+          </div>
+        </div>
+
+        <div
+          ref={containerRef}
+          className="wyn-work__outer"
+        >
+          <div
+            ref={innerRef}
+            className="wyn-work__inner"
           >
             <div
-              ref={innerRef}
-              className="wyn-work__inner"
+              ref={rulerRef}
+              className="wyn-work__ruler"
+            />
+
+            <div
+              ref={titleRef}
+              className="wyn-title"
             >
-              <div
-                ref={rulerRef}
-                className="wyn-work__ruler"
-              />
+              <div className="wyn-title__inner">
+                <span className="wyn-original-letter">
+                  W
+                </span>
 
-              <div
-                ref={titleRef}
-                className="wyn-title"
-              >
-                <div className="wyn-title__inner">
-                  <span className="wyn-original-letter">
-                    W
-                  </span>
+                <span className="wyn-original-letter">
+                  Y
+                </span>
 
-                  <span className="wyn-original-letter">
-                    Y
-                  </span>
-
-                  <span className="wyn-original-letter">
-                    N
-                  </span>
-                </div>
-              </div>
-
-              <canvas
-                ref={canvasRef}
-                className="wyn-canvas"
-              />
-
-              <div
-                ref={sceneRef}
-                className="wyn-scene"
-              >
-                {services.map(
-                  (service) => (
-                    <article
-                      key={service.number}
-                      className="wyn-service-card"
-                    >
-                      <div className="wyn-service-card__visual">
-                        {service.title
-                          .slice(0, 1)
-                          .toUpperCase()}
-                      </div>
-
-                      <div className="wyn-service-card__caption">
-                        <span>
-                          {service.title}
-                        </span>
-
-                        <span className="wyn-service-card__number">
-                          {service.number}
-                        </span>
-                      </div>
-                    </article>
-                  ),
-                )}
+                <span className="wyn-original-letter">
+                  N
+                </span>
               </div>
             </div>
-          </div>
-        </section>
 
-        <section className="wyn-exit">
-          <h2>
-            Movemos
-            <br />
-            lo que viene.
-          </h2>
-        </section>
-      </main>
-    </>
+            <canvas
+              ref={canvasRef}
+              className="wyn-canvas"
+            />
+
+            <div
+              ref={sceneRef}
+              className="wyn-scene"
+            >
+              {services.map(
+                (service) => (
+                  <article
+                    key={service.number}
+                    className="wyn-service-card"
+                  >
+                    <div className="wyn-service-card__visual">
+                      {service.title
+                        .slice(0, 1)
+                        .toUpperCase()}
+                    </div>
+
+                    <div className="wyn-service-card__caption">
+                      <span>
+                        {service.title}
+                      </span>
+
+                      <span className="wyn-service-card__number">
+                        {service.number}
+                      </span>
+                    </div>
+                  </article>
+                ),
+              )}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="wyn-exit">
+        <h2>
+          Movemos
+          <br />
+          lo que viene.
+        </h2>
+      </section>
+    </section>
   )
 }

@@ -1,0 +1,244 @@
+.stats-effect {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 100vh;
+
+  overflow: hidden;
+
+  padding: 12vh 6vw;
+
+  background: #292727;
+}
+
+/*
+ * =================================================
+ * WATERMARK
+ * =================================================
+ */
+
+.stats-effect__watermark {
+  position: absolute;
+
+  inset: 0;
+
+  z-index: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  pointer-events: none;
+}
+
+.stats-effect__digit {
+  font-size: min(46vw, 620px);
+
+  font-weight: 800;
+
+  line-height: 1;
+
+  letter-spacing: -0.04em;
+
+  /*
+   * Relleno "hatched" en vez de sólido: una serie de
+   * líneas finas que dejan pasar el fondo oscuro, así
+   * el número se lee más como textura que como marca.
+   */
+  background-image:
+    repeating-linear-gradient(
+      transparent,
+      transparent 3px,
+      rgba(243, 241, 235, 0.55) 3px,
+      rgba(243, 241, 235, 0.55) 4px
+    );
+
+  background-clip: text;
+  -webkit-background-clip: text;
+
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+
+  opacity: 0.16;
+
+  will-change: transform, opacity;
+}
+
+.stats-effect__digit--slash {
+  font-weight: 300;
+  padding: 0 0.02em;
+}
+
+/*
+ * =================================================
+ * CARD
+ * =================================================
+ */
+
+.stats-effect__card {
+  position: relative;
+
+  z-index: 2;
+
+  width: min(92vw, 460px);
+
+  background: #f3f1eb;
+
+  color: #292727;
+
+  border: 1px solid rgba(41, 39, 39, 0.12);
+
+  will-change: transform, opacity;
+}
+
+.stats-effect__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  margin: 24px 0 0 24px;
+
+  padding: 4px 12px 5px;
+
+  border: 2px solid #292727;
+  border-radius: 999px;
+
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.stats-effect__stat {
+  margin: 18px 24px 0;
+
+  font-size: clamp(56px, 8vw, 96px);
+
+  font-weight: 800;
+
+  line-height: 0.95;
+
+  letter-spacing: -0.03em;
+}
+
+.stats-effect__divider {
+  margin: 22px 0 0;
+
+  border: none;
+  border-top: 1px solid rgba(41, 39, 39, 0.16);
+}
+
+.stats-effect__copy {
+  margin: 0;
+
+  padding: 20px 24px 26px;
+
+  font-size: 15px;
+
+  line-height: 1.5;
+
+  color: rgba(41, 39, 39, 0.72);
+}
+
+/*
+ * =================================================
+ * CTA — botón "sticker": bloque de color sólido
+ * desplazado detrás en vez de box-shadow difuminado.
+ * =================================================
+ */
+
+.stats-effect__cta-wrap {
+  position: relative;
+
+  z-index: 2;
+
+  margin-top: 28px;
+}
+
+.stats-effect__cta {
+  position: relative;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 14px 30px;
+
+  background: #f5d84b;
+  color: #292727;
+
+  border: none;
+  border-radius: 999px;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  text-decoration: none;
+
+  cursor: pointer;
+
+  transition: transform 0.15s ease;
+}
+
+.stats-effect__cta::before {
+  content: '';
+
+  position: absolute;
+
+  inset: 0;
+
+  z-index: -1;
+
+  background: #f3f1eb;
+
+  border-radius: 999px;
+
+  transform: translate(6px, 6px);
+}
+
+.stats-effect__cta:hover {
+  transform: translate(-2px, -2px);
+}
+
+.stats-effect__cta:hover::before {
+  transform: translate(8px, 8px);
+}
+
+.stats-effect__cta:active {
+  transform: translate(2px, 2px);
+}
+
+.stats-effect__cta:active::before {
+  transform: translate(3px, 3px);
+}
+
+/*
+ * =================================================
+ * RESPONSIVE
+ * =================================================
+ */
+
+@media (max-width: 576px) {
+  .stats-effect {
+    padding: 10vh 5vw;
+  }
+
+  .stats-effect__digit {
+    font-size: 62vw;
+  }
+
+  .stats-effect__stat {
+    font-size: clamp(48px, 16vw, 72px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stats-effect__cta {
+    transition: none;
+  }
+}

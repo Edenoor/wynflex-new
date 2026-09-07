@@ -1,13 +1,9 @@
 import { useLayoutEffect, useMemo, useRef } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import Lenis from 'lenis'
+import './MessageEffect.css'
 
 gsap.registerPlugin(ScrollTrigger)
-
-const DARK = '#292727'
-const CREAM = '#f3f1eb'
-const YELLOW = '#f5d84b'
 
 function splitWords(text) {
   const words = text.split(' ')
@@ -18,12 +14,12 @@ function splitWords(text) {
       className="msg-word"
     >
       {word}
-      {index < words.length - 1 ? '\u00A0' : ''}
+      {index < words.length - 1 ? ' ' : ''}
     </span>
   ))
 }
 
-export default function MessageEffectTest() {
+export default function MessageEffect() {
   const sectionRef = useRef(null)
   const canvasRef = useRef(null)
 
@@ -93,30 +89,8 @@ export default function MessageEffectTest() {
 
     const ctx = canvas.getContext('2d')
 
-    let lenisRaf
     let canvasRaf
     let resizeTimeout
-
-    /*
-     * =====================================================
-     * LENIS
-     * =====================================================
-     */
-
-    const lenis = new Lenis({
-      lerp: 0.08,
-      smoothWheel: true,
-      wheelMultiplier: 0.9,
-    })
-
-    lenis.on('scroll', ScrollTrigger.update)
-
-    const lenisLoop = (time) => {
-      lenis.raf(time)
-      lenisRaf = requestAnimationFrame(lenisLoop)
-    }
-
-    lenisRaf = requestAnimationFrame(lenisLoop)
 
     /*
      * =====================================================
@@ -974,10 +948,6 @@ export default function MessageEffectTest() {
       )
 
       cancelAnimationFrame(
-        lenisRaf,
-      )
-
-      cancelAnimationFrame(
         canvasRaf,
       )
 
@@ -988,461 +958,86 @@ export default function MessageEffectTest() {
 
       tl.scrollTrigger?.kill()
       tl.kill()
-
-      lenis.destroy()
     }
   }, [])
 
   return (
-    <>
-      <style>
-        {`
-          .message-effect-page {
-            margin: 0;
-            background: ${DARK};
-          }
-
-          .message-effect {
-            position: relative;
-
-            height: 800lvh;
-
-            overflow: hidden;
-
-            clip-path: inset(0);
-
-            background: ${DARK};
-          }
-
-          .message-effect__inner {
-            position: fixed;
-
-            inset: 0;
-
-            width: 100%;
-            height: 100lvh;
-
-            overflow: hidden;
-
-            background: ${DARK};
-          }
-
-          .message-effect__canvas {
-            position: absolute;
-
-            inset: 0;
-
-            z-index: 1;
-
-            width: 100%;
-            height: 100%;
-
-            pointer-events: none;
-          }
-
-          .message-effect__message {
-            position: absolute;
-
-            top: 50%;
-            left: 50%;
-
-            z-index: 2;
-
-            display: flex;
-
-            flex-direction: column;
-
-            align-items: center;
-
-            justify-content: center;
-
-            will-change: transform;
-          }
-
-          /*
-           * ================================================
-           * PRIMER MENSAJE
-           * ================================================
-           */
-
-          .message-effect__message--1 {
-            width:
-              min(
-                78vw,
-                1380px
-              );
-
-            font-size:
-              var(
-                --message-font-size,
-                min(
-                  6.4rem,
-                  5.9vw
-                )
-              );
-
-            font-weight: 600;
-
-            line-height: .91;
-
-            letter-spacing:
-              -.06em;
-          }
-
-          .message-effect__big {
-            color: ${CREAM};
-
-            white-space: nowrap;
-
-            text-align: center;
-          }
-
-          .message-effect__message--1
-          .message-effect__big {
-            width: fit-content;
-          }
-
-          .message-effect__message--1
-          .message-effect__big:nth-child(2) {
-            margin-top: .06em;
-          }
-
-          .message-effect__message--1
-          .message-effect__big:nth-child(3) {
-            margin-top: .06em;
-          }
-
-          /*
-           * Cada palabra es una unidad
-           * independiente de escala.
-           */
-
-          .msg-word {
-            display: inline-block;
-
-            transform-origin:
-              calc(
-                50% +
-                var(
-                  --origin-x,
-                  0px
-                )
-              )
-              calc(
-                50% +
-                var(
-                  --origin-y,
-                  0px
-                )
-              );
-
-            will-change:
-              transform;
-          }
-
-          /*
-           * ================================================
-           * SUBTÍTULO
-           * ================================================
-           */
-
-          .message-effect__small {
-            position: absolute;
-
-            top: 50%;
-            left: 50%;
-
-            width:
-              min(
-                25vw,
-                400px
-              );
-
-            margin: 0;
-
-            color:
-              ${YELLOW};
-
-            font-size:
-              clamp(
-                15px,
-                1.22vw,
-                22px
-              );
-
-            font-weight:
-              500;
-
-            line-height:
-              1.16;
-
-            letter-spacing:
-              -.03em;
-
-            text-align:
-              left;
-
-            will-change:
-              transform,
-              opacity;
-          }
-
-          /*
-           * ================================================
-           * MENSAJE FINAL
-           * ================================================
-           */
-
-          .message-effect__message--2 {
-            width:
-              min(
-                78vw,
-                1400px
-              );
-
-            color:
-              ${CREAM};
-
-            font-size:
-              min(
-                8.1rem,
-                7.2vw
-              );
-
-            font-weight:
-              600;
-
-            line-height:
-              .89;
-
-            letter-spacing:
-              -.065em;
-          }
-
-          .message-effect__message--2
-          .message-effect__big {
-            width: 100%;
-
-            color:
-              ${CREAM};
-          }
-
-          .message-effect__message--2
-          .message-effect__big:first-child {
-            text-align: left;
-          }
-
-          .message-effect__message--2
-          .message-effect__big:last-child {
-            margin-top:
-              .12em;
-
-            color:
-              ${YELLOW};
-
-            text-align:
-              right;
-          }
-
-          /*
-           * ================================================
-           * TABLET
-           * ================================================
-           */
-
-          @media (
-            max-width: 987px
-          ) {
-            .message-effect {
-              height:
-                650lvh;
-            }
-
-            .message-effect__message--1 {
-              width:
-                calc(
-                  100% -
-                  40px
-                );
-
-              font-size:
-                var(
-                  --message-font-size,
-                  9vw
-                );
-            }
-
-            .message-effect__message--2 {
-              width:
-                calc(
-                  100% -
-                  40px
-                );
-
-              font-size:
-                10.5vw;
-            }
-
-            .message-effect__small {
-              position: relative;
-
-              top: auto;
-              left: auto;
-
-              width:
-                min(
-                  75vw,
-                  430px
-                );
-
-              margin-top:
-                34px;
-
-              text-align:
-                center;
-            }
-          }
-
-          /*
-           * ================================================
-           * MOBILE
-           * ================================================
-           */
-
-          @media (
-            max-width: 576px
-          ) {
-            .message-effect {
-              height:
-                550lvh;
-            }
-
-            .message-effect__message--1 {
-              width:
-                calc(
-                  100% -
-                  28px
-                );
-
-              line-height:
-                .95;
-            }
-
-            .message-effect__message--2 {
-              width:
-                calc(
-                  100% -
-                  28px
-                );
-
-              font-size:
-                12vw;
-
-              line-height:
-                .94;
-            }
-
-            .message-effect__big {
-              white-space:
-                nowrap;
-            }
-
-            .message-effect__small {
-              width:
-                min(
-                  86vw,
-                  380px
-                );
-
-              margin-top:
-                26px;
-
-              font-size:
-                15px;
-            }
-          }
-        `}
-      </style>
-
-      <main className="message-effect-page">
-        <section
-          ref={sectionRef}
-          className="message-effect"
+    <section
+      ref={sectionRef}
+      className="message-effect"
+    >
+      <div className="message-effect__inner">
+        <canvas
+          ref={canvasRef}
+          className="message-effect__canvas"
+        />
+
+        {/* PRIMER MENSAJE */}
+
+        <div
+          ref={message1Ref}
+          className="
+            message-effect__message
+            message-effect__message--1
+          "
         >
-          <div className="message-effect__inner">
-            <canvas
-              ref={canvasRef}
-              className="message-effect__canvas"
-            />
-
-            {/* PRIMER MENSAJE */}
-
-            <div
-              ref={message1Ref}
-              className="
-                message-effect__message
-                message-effect__message--1
-              "
-            >
-              <div
-                ref={line1Ref}
-                className="message-effect__big"
-              >
-                {firstLine}
-              </div>
-
-              <div
-                ref={line2Ref}
-                className="message-effect__big"
-              >
-                {secondLine}
-              </div>
-
-              <div
-                ref={line3Ref}
-                className="message-effect__big"
-              >
-                {thirdLine}
-              </div>
-
-              <p
-                ref={smallRef}
-                className="message-effect__small"
-              >
-                Vender, preparar,
-                despachar, entregar y
-                acompañar cada pedido.
-                Todo forma parte de la
-                experiencia.
-              </p>
-            </div>
-
-            {/* MENSAJE FINAL */}
-
-            <div
-              ref={message2Ref}
-              className="
-                message-effect__message
-                message-effect__message--2
-              "
-            >
-              <div
-                ref={finalLine1Ref}
-                className="message-effect__big"
-              >
-                Una buena logística
-              </div>
-
-              <div
-                ref={finalLine2Ref}
-                className="message-effect__big"
-              >
-                lo hace despegar.
-              </div>
-            </div>
+          <div
+            ref={line1Ref}
+            className="message-effect__big"
+          >
+            {firstLine}
           </div>
-        </section>
-      </main>
-    </>
+
+          <div
+            ref={line2Ref}
+            className="message-effect__big"
+          >
+            {secondLine}
+          </div>
+
+          <div
+            ref={line3Ref}
+            className="message-effect__big"
+          >
+            {thirdLine}
+          </div>
+
+          <p
+            ref={smallRef}
+            className="message-effect__small"
+          >
+            Vender, preparar,
+            despachar, entregar y
+            acompañar cada pedido.
+            Todo forma parte de la
+            experiencia.
+          </p>
+        </div>
+
+        {/* MENSAJE FINAL */}
+
+        <div
+          ref={message2Ref}
+          className="
+            message-effect__message
+            message-effect__message--2
+          "
+        >
+          <div
+            ref={finalLine1Ref}
+            className="message-effect__big"
+          >
+            Una buena logística
+          </div>
+
+          <div
+            ref={finalLine2Ref}
+            className="message-effect__big"
+          >
+            lo hace despegar.
+          </div>
+        </div>
+      </div>
+    </section>
   )
 }
